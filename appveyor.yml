@@ -1,0 +1,25 @@
+version: 0.0.0-{branch}-{build}
+
+image: Visual Studio 2017 Preview
+
+environment:
+  ASSEMBLY_FILE_VERSION: 0.0.0
+
+configuration: Release
+platform: Any CPU
+
+before_build:
+  - nuget restore
+  - nuget install AppVeyorAssemblyVersionInfoWriter -Version 1.0.0 -OutputDirectory packages
+  - packages\AppVeyorAssemblyVersionInfoWriter.1.0.0\tools\AppVeyorAssemblyVersionInfoWriter.exe --output VersionInfo.cs
+
+build:
+  include_nuget_references: false
+  publish_nuget: false
+  publish_nuget_symbols: false
+
+after_build:
+  - nuget pack WinlogbeatFirehoseProxy\WinlogbeatFirehoseProxy.csproj -Properties "Configuration=Release;Platform=AnyCPU" -Tool -OutputDirectory output
+
+artifacts:
+  - path: 'output\*.nupkg'
