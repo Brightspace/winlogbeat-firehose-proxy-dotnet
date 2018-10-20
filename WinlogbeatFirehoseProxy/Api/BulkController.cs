@@ -21,17 +21,17 @@ namespace WinlogbeatFirehoseProxy.Api {
 		internal const long MaxBatchRequestSize = 3 * 1024 * 1024; // 3 MB
 		internal static readonly Encoding Utf8Encoding = new UTF8Encoding( encoderShouldEmitUTF8Identifier: false );
 
-		private static readonly ILogger m_logger = NLog.LogManager.GetCurrentClassLogger();
+		private static readonly ILogger m_log = NLog.LogManager.GetCurrentClassLogger();
 
-		private readonly FirehoseProxyConfig m_config;
+		private readonly ProgramArgs m_args;
 		private readonly IFirehoseClientProvider m_firehoseProvider;
 
 		public BulkController(
-				FirehoseProxyConfig config,
+				ProgramArgs args,
 				IFirehoseClientProvider firehoseProvider
 			) {
 
-			m_config = config;
+			m_args = args;
 			m_firehoseProvider = firehoseProvider;
 		}
 
@@ -54,7 +54,7 @@ namespace WinlogbeatFirehoseProxy.Api {
 					}
 
 					var batchRequest = new PutRecordBatchRequest {
-						DeliveryStreamName = m_config.DeliveryStreamName,
+						DeliveryStreamName = m_args.DeliveryStreamName,
 						Records = records
 					};
 
@@ -85,10 +85,10 @@ namespace WinlogbeatFirehoseProxy.Api {
 							log.Message = "Successfully put all records";
 						}
 
-						m_logger.Log( log );
+						m_log.Log( log );
 
 					} catch( Exception err ) {
-						m_logger.Error( err, "Failed to put record batch." );
+						m_log.Error( err, "Failed to put record batch." );
 
 						hadErrors = true;
 					}

@@ -7,19 +7,17 @@ namespace WinlogbeatFirehoseProxy.Console {
 
 		private static readonly ILogger m_logger = NLog.LogManager.GetCurrentClassLogger();
 
-		internal static void Main( string[] args ) {
+		internal static int Main( string[] arguments ) {
 
 			try {
-				FirehoseProxyConfig config = new FirehoseProxyConfig(
-					deliveryStreamName: "win-event-log",
-					regionName: "us-east-1",
-					roleArn: "arn:aws:iam::857609596104:role/win_event_log_publisher"
-				);
+				if( !ProgramArgs.TryParse( arguments, out ProgramArgs args ) ) {
+					ProgramArgs.WriteOptions( System.Console.Out );
+					return 160;
+				}
 
-				using( HttpApplication.Start( config ) ) {
-				
-					m_logger.Info( "Listening at http://localhost:9200" );
+				using( HttpApplication.Start( args ) ) {
 					System.Console.ReadLine();
+					return 0;
 				}
 
 			} finally {
