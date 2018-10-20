@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Web.Http;
-using Amazon;
-using Amazon.Runtime;
 using Microsoft.Owin.Hosting;
 using Ninject;
 using Ninject.Web.Common.OwinHost;
@@ -16,11 +14,11 @@ namespace WinlogbeatFirehoseProxy.Api {
 
 		private static readonly ILogger m_log = NLog.LogManager.GetCurrentClassLogger();
 
-		private const string ProxyUrl = "http://localhost:9200";
-
 		public static IDisposable Start( ProgramArgs args ) {
 
-			IDisposable server = WebApp.Start( ProxyUrl, appBuilder => {
+			StartOptions options = new StartOptions { Port = args.Port };
+
+			IDisposable server = WebApp.Start( options, appBuilder => {
 
 				appBuilder.UseNinjectMiddleware( () => {
 
@@ -50,7 +48,7 @@ namespace WinlogbeatFirehoseProxy.Api {
 				appBuilder.UseNinjectWebApi( appConfig );
 			} );
 
-			m_log.Info( "Listening at {0}", ProxyUrl );
+			m_log.Info( "Listening on port {0}", args.Port );
 
 			return server;
 		}

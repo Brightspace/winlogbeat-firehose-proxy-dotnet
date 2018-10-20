@@ -25,6 +25,11 @@ namespace WinlogbeatFirehoseProxy {
 				prototype: "roleArn=",
 				description: "The role to assume to via STS (optional)",
 				action: ( args, value ) => { args.RoleArn = value; }
+			)
+			.Add(
+				prototype: "port=",
+				description: "The port to listen on (defaults to 9200)",
+				action: ( args, value ) => { args.Port = int.Parse( value ); }
 			);
 
 		public static bool TryParse(
@@ -56,5 +61,6 @@ namespace WinlogbeatFirehoseProxy {
 		public string DeliveryStreamName { get; private set; }
 		public string RegionName { get; private set; }
 		public string RoleArn { get; private set; }
+		public int Port { get; private set; } = 9200;
 	}
 }
