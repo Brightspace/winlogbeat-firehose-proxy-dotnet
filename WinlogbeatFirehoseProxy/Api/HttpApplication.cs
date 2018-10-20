@@ -7,6 +7,7 @@ using Ninject;
 using Ninject.Web.Common.OwinHost;
 using Ninject.Web.WebApi.OwinHost;
 using NLog;
+using WinlogbeatFirehoseProxy.Counters;
 using WinlogbeatFirehoseProxy.Kinesis;
 
 namespace WinlogbeatFirehoseProxy.Api {
@@ -33,6 +34,11 @@ namespace WinlogbeatFirehoseProxy.Api {
 					kernel
 						.Bind<IFirehoseClientProvider>()
 						.ToMethod( ctxt => FirehoseClientProviderFactory.Create( args ) )
+						.InSingletonScope();
+
+					kernel
+						.Bind<IMetrics>()
+						.ToConstant( PerfmonCounterMetrics.Instance )
 						.InSingletonScope();
 
 					return kernel;

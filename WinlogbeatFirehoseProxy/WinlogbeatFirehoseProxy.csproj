@@ -131,6 +131,9 @@
     <Compile Include="Api\HttpApplication.cs" />
     <Compile Include="Api\RootController.cs" />
     <Compile Include="Api\JsonHttpContent.cs" />
+    <Compile Include="Counters\IMetrics.cs" />
+    <Compile Include="Counters\PerfmonCounter.cs" />
+    <Compile Include="Counters\PerfmonCounterMetrics.cs" />
     <Compile Include="HttpWindowsService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -152,6 +155,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Content Include="WinlogbeatFirehoseProxy.count4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="NLog.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
