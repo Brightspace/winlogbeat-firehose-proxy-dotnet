@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>$id$</id>
+		<version>$version$</version>
+		<title>$title$</title>
+		<authors>$author$</authors>
+		<owners>$author$</owners>
+		<projectUrl>https://github.com/Brightspace/winlogbeat-firehose-proxy-dotnet</projectUrl>
+		<licenseUrl>https://raw.githubusercontent.com/Brightspace/winlogbeat-firehose-proxy-dotnet/master/LICENSE</licenseUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>$description$</description>
+		<copyright>Copyright 2018</copyright>
+		<tags>NUnit</tags>
+	</metadata>
+	<files>
+		<file src="bin\$configuration$\*.*" target="tools" exclude="bin\$configuration$\*.vshost.*" />
+	</files>
+</package>
